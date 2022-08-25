@@ -1,4 +1,14 @@
-
+class Despesa {
+    constructor(ano, mes, dia, tipo, descricao, valor) {
+        //atribuindo valores aos atributos do objeto despesa
+        this.ano = ano
+        this.mes = mes
+        this.dia = dia
+        this.tipo = tipo
+        this.descricao = descricao
+        this.valor = valor
+    }
+}
 
 //recebimento dos dados
 function cadastrarDespesa() {
@@ -11,6 +21,16 @@ function cadastrarDespesa() {
     let descricao = document.getElementById('descricao')
     let valor = document.getElementById('valor')
 
-    //recuperando o valor do elemento html
-    console.log(ano.value, mes.value, dia.value, tipo.value, descricao.value, valor.value)
+    //atribuindo a instancia do objeto despesa
+    //recebendo valores
+    let despesa = new Despesa(
+        ano.value, 
+        mes.value, 
+        dia.value, 
+        tipo.value, 
+        descricao.value, 
+        valor.value
+    )
+
+    console.log(despesa)
 }
