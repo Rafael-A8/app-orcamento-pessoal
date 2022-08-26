@@ -16,7 +16,6 @@ class Despesa {
             }
         }
         return true
-
     }
 }
 
@@ -41,6 +40,29 @@ class Bd {
         localStorage.setItem(id, JSON.stringify(d))
 
         localStorage.setItem('id', id)
+    }
+
+    recuperarTodosRegistros() {
+
+        //array de despesas
+        let despesas = Array()
+
+        let id = localStorage.getItem('id')
+
+        //recuperando todoas as despesas cadastradas no banco de dados
+        for(let i = 1; i <= id; i++) {
+            
+            //recuperando a despesa
+            let despesa = JSON.parse(localStorage.getItem(i))
+            
+            //existe a possibilidade de haver índices que foram pular /removido
+            if (despesa === null) {
+                continue
+            }
+            despesas.push(despesa)
+        }
+
+        return despesas
     }
 }
 
@@ -90,6 +112,53 @@ function cadastrarDespesa() {
         //dialog de erro
         $('#modalRegistraDespesa').modal('show')
     }
+    
+}
+
+function carregaListasDespesas() {
+    let despesas = Array()
+    despesas = bd.recuperarTodosRegistros()
+
+    //Selecionando o elemento tbody da tabela
+    let listaDespesas = document.getElementById('listaDespesas')
+
+    /*<tr>
+    <td>15/03/2018</td>
+    <td>alimentação</td>
+    <td>compras</td>
+    <td>500</td>
+    </tr>
+    */
+
+    //percorrer o array despesas, listando cada despesa de forma dinâmica
+    despesas.forEach(function(d) {
+
+
+        //criando a linha (tr)
+        let linha = listaDespesas.insertRow()
+
+        //criar as colunas para inserir valores
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}` 
+
+        //ajustar o tipo
+        switch(d.tipo) {
+            case '1': d.tipo = 'Alimentação'
+                break
+            case '2': d.tipo = 'Educação'
+                break
+            case '3': d.tipo = 'Lazer'
+                break
+            case '4': d.tipo = 'Saúde'
+                break
+            case '5': d.tipo = 'Trasporte'
+                break
+        }
+        linha.insertCell(1).innerHTML = d.tipo
+
+        linha.insertCell(2).innerHTML = d.descricao 
+        linha.insertCell(3).innerHTML = d.valor
+
+    })
     
 }
 
